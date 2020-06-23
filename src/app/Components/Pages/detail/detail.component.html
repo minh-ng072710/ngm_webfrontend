@@ -1,0 +1,28 @@
+<h1>Customers</h1>
+<div *ngFor="let user of users" style="width: 300px;">
+    <div *ngIf="user">
+        <div>
+            <label>First Name: </label> {{user.email}}
+        </div>
+        <div>
+            <label>Key: </label> {{user.key}}
+        </div>
+        <div>
+            <label>Age: </label> {{user.passwords}}
+        </div>
+        <div>
+            <label>Active: </label> {{user.active}}
+        </div>
+
+        <span class="button is-small btn-primary" *ngIf='user.active' (click)='updateActive(false)'>Inactive</span>
+
+        <span class="button is-small btn-primary" *ngIf='!user.active' (click)='updateActive(true)'>Active</span>
+
+        <span class="button is-small btn-danger" (click)='deleteUser()'>Delete</span>
+
+        <hr />
+    </div>
+</div>
+<div style="margin-top:20px;">
+    <button type="button" class="button btn-danger" (click)='deleteCustomers()'>Delete All</button>
+</div>

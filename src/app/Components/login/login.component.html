@@ -1,0 +1,9 @@
+<div *ngIf="user.uid | async as uid; else login">
+    the user has app-login {{uid}}
+    <div *ngIf="user.isAdmin|async">the usser has login super power</div>
+    <div><button (click)="user.logout()">log out</button></div>
+</div>
+
+<ng-template #login>
+    You need to login: <button (click)="user.login()">Login</button>
+</ng-template>

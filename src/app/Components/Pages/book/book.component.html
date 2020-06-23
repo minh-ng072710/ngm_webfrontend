@@ -1,0 +1,251 @@
+<div class="col-lg-12" style="margin-top: 40px;">
+    <div class="card">
+        <div class="card-header card-header-primary"
+            style="background: dimgrey;color:white;text-align: center;font-size: 20px;">
+            <h4 class="card-title ">List Book</h4>
+            <p class="card-category">All Book Infor</p>
+        </div>
+        <div class="card-body">
+            <div class="row" style="margin-left: 357px;">
+                <div *ngFor="let item of Status" style="padding-right: 20px;">
+                    <input (click)="filter($event, item)" type="checkbox" /> <span
+                        style="padding-left: 7px;">{{item}}</span>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table style="text-align: center" id="datatables" class="row-border hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                Hình
+                            </th>
+                            <th>
+                                Tên Sách
+                            </th>
+
+                            <th>
+                                Ngày Phát Hành
+                            </th>
+                            <th>
+                                Thể Loại
+                            </th>
+                            <th>
+                                Trạng Thái
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row row-book">
+    <div *ngIf="checktao" class="col-lg-12">
+        <div class="card">
+            <div class="card-header card-header-primary"
+                style="background: dimgrey;color:white;text-align: center;font-size: 20px;">
+                <h4 class="card-title">Book Management</h4>
+                <p class="card-category">Add News Book</p>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="ngForm">
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Name of Book</label>
+                                <input formControlName="Book_Name" [(ngModel)]="Book.Book_Name" type="text"
+                                    class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Book_Name.errors }">
+                                <div *ngIf="submitted && f.Book_Name.errors" class="invalid-feedback">
+                                    <div *ngIf="f.Book_Name.errors.required">Please fill Book's Name!!</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Book Image</label>
+                                    <input formControlName="" class="form-control" type="file" name="file" multiple
+                                        (change)="selectImage($event)" style="width: 530px;">
+
+                                    <div *ngIf="submitted && f.Book_Name.errors" class="invalid-feedback">
+                                        <div *ngIf="f.Book_Name.errors.required">Please fill Book's Name!!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="co-md-2" style="padding-left: 550px;margin-top: -63px;">
+                                <small><img *ngIf="checkhinh" [src]="url" width="100px" height="100px"
+                                        style="width: 65px;height: 56px;border: orange 3px solid;" alt=""></small>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Publication Date</label>
+                                <input formControlName="Publication_Date" [(ngModel)]="Book.Publication_Date"
+                                    type="date" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f.Publication_Date.errors }">
+                                <div *ngIf="submitted && f.Publication_Date.errors" class="invalid-feedback">
+                                    <div *ngIf="f.Publication_Date.errors.required">Please fill Publication Date for
+                                        Book!!! </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Category</label>
+                                <br />
+                                <select style="width: -webkit-fill-available;color:black;background:white"
+                                    class="form-control" formControlName="Category" [(ngModel)]="Book.Category"
+                                    [ngClass]="{ 'is-invalid': submitted && f.Category.errors }">
+                                    <option *ngFor="let cats of Category">{{cats}}</option>
+                                </select>
+                                <div *ngIf="submitted && f.Category.errors" class="invalid-feedback">
+                                    <div *ngIf="f.Category.errors.required">Please choose Categpory for book</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Status</label>
+                                <br />
+                                <select style="width: -webkit-fill-available;color:black;background:white"
+                                    class="form-control" formControlName="Status" [(ngModel)]="Book.Status"
+                                    [ngClass]="{ 'is-invalid': submitted && f.Status.errors }">
+                                    <option *ngFor="let statuses of Status">{{statuses}}</option>
+                                </select>
+                                <div *ngIf="submitted && f.Status.errors" class="invalid-feedback">
+                                    <div *ngIf="f.Status.errors.required">Please choose Status for book</div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Description</label>
+                                <textarea rows="5" formControlName="Description" [(ngModel)]="Book.Description"
+                                    type="text" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f.Description.errors }"></textarea>
+                                <div *ngIf="submitted && f.Description.errors" class="invalid-feedback">
+                                    <div *ngIf="f.Description.errors.required">Please fill Description for Book!!!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="float: right;">
+                        <button type="reset" style="width: 140px; margin-right:12px ;"
+                            class="btn btn-danger pull-right">Reset</button>
+
+                        <button type="submit" style="width: 140px;" (click)="Create_Book()"
+                            class="btn-primary pull-right">Add_New_Book</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div *ngIf="checksua" class="col-lg-12">
+        <div class="card">
+            <div class="card-header card-header-primary"
+                style="background: dimgrey;color:white;text-align: center;font-size: 20px;">
+                <h4 *ngIf="checksua" class="card-title">Book Detail</h4>
+                <p *ngIf="checksua" class="card-category">Update Book</p>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">Name of Book</label>
+                            <input [(ngModel)]="Book.Book_Name" type="text" class="form-control">
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Book Image</label>
+                                <input formControlName="" class="form-control" type="file" name="file" multiple
+                                    (change)="selectImage($event)" style="width: 530px;">
+
+
+                            </div>
+                        </div>
+                        <div class="co-md-2" style="padding-left: 550px;margin-top: -63px;">
+                            <small><img *ngIf="checkhinh" [src]="url" width="100px" height="100px"
+                                    style="width: 65px;height: 56px;border: orange 3px solid;" alt=""></small>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">Publication Date</label>
+                            <input [(ngModel)]="Book.Publication_Date" type="date" class="form-control">
+
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">Category</label>
+                            <br />
+                            <select style="width: -webkit-fill-available;color:black;background:white"
+                                class="form-control" [(ngModel)]="Book.Category">
+                                <option *ngFor="let tl of Category">{{tl}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">Status</label>
+                            <br />
+                            <select class="form-control"
+                                style="width: -webkit-fill-available;color:black;background:white"
+                                [(ngModel)]="Book.Status">
+                                <option *ngFor="let tt of Status">{{tt}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="bmd-label-floating">Description</label>
+                            <textarea rows="5" [(ngModel)]="Book.Description" type="text"
+                                class="form-control"></textarea>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="float: right;">
+                    <button style="margin-right: 20px;" type="submit" class="btn btn-success pull-right" id="sua"
+                        (click)="back()">Back Previous</button>
+                    <button style="margin-right: 20px;" type="submit" class="btn btn-warning pull-right" id="sua"
+                        (click)="Update_Book()">Update</button>
+
+                    <button style="margin-right: 20px;" (click)="DeleteBook()" type="submit"
+                        class="btn btn-danger pull-right" id="xoa">Delete</button>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+
+
+
+    </div>

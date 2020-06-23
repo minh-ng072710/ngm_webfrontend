@@ -1,0 +1,52 @@
+#text-left-sidebar{
+    padding-left: 15px ;
+    font-size: 16px;
+    color: white;
+}
+.icon-new{
+    font-size: 16px;
+    color: orange;
+}
+.menu{
+    padding-left: 20px !important;
+}
+.left-sidebar{
+    background-color: black;
+}
+.topbar-new{
+    background-color: black !important;
+}
+.new-login-title{
+    color: orange;
+    font-weight: 900;
+    font-size: 56px;
+}
+.row-for-buton{
+    margin-top: 70px !important;
+}
+.username_new {
+    width: 400px !important ;
+    color: orange;
+    margin-top: 25px !important;
+}
+.password_new{
+        width: 400px !important ;
+        margin-top: 50px !important;
+        color: orange;
+
+}
+#login-button{
+    color: orange;
+    background-color:black ;
+    font-weight:500 ;
+}
+#login-google-button{
+     color: orange;
+    background-color:black ;
+    font-weight: 500;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: orange;
+  opacity: 1; /* Firefox */
+  font-size: 15px;
+}

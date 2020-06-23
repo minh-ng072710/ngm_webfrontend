@@ -1,0 +1,289 @@
+<!-- <div class="row page-titles">
+    <div class="col-md-5 align-self-center">
+        <h4 class="text-themecolor">{{title}}</h4>
+    </div>
+    <div class="col-md-7 align-self-center text-right">
+        <div class="d-flex justify-content-end align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">{{title}}</a></li>
+                <li class="breadcrumb-item active">{{description}}</li>
+            </ol>
+            <button type="button" class="btn btn-info d-none d-lg-block m-l-15"><i
+                    class="fa fa-plus-circle"></i>{{btn_value}}</button>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">General Form</h4>
+                <h6 class="card-subtitle"> All with bootstrap element classies </h6>
+                <form class="mt-4" (submit)="onSubmit_New(formtest)" #formtest="ngForm">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input [(ngModel)]="user.email" name="email" type="email" class="form-control"
+                            id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email
+                            with anyone else.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input [(ngModel)]="user.passwords" name="password" type="password" class="form-control"
+                            id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <div class="custom-control custom-checkbox mr-sm-2 mb-3">
+                        <input type="checkbox" class="custom-control-input" id="checkbox0" value="check">
+                        <label class="custom-control-label" for="checkbox0">Check Me Out !</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <div class="col-lg-7" [hidden]="!submitted">
+                    <h4>You submitted successfully!</h4>
+                    <button class="btn btn-success" (click)="newUser()">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<div class="row row-category">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title">Thêm Loại Sản Phẩm</h4>
+                <p class="card-category">Thông Tin Loại Sản Phẩm</p>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="ngForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="bmd-label-floating">Tên Loại:</label>
+                                        <input formControlName="Name" [(ngModel)]="Category.Name" type="text"
+                                            class="form-control"
+                                            [ngClass]="{ 'is-invalid': submitted && f.Name.errors }">
+                                        <div *ngIf="submitted && f.Name.errors" class="invalid-feedback">
+                                            <div *ngIf="f.Name.errors.required">Vui lòng nhập tên loại sản phẩm!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="bmd-label-floating">Hình:</label>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <input style="width: 325px;" formControlName="Img_URL"
+                                                    [(ngModel)]="Category.Img_URL" type="file" class="form-control"
+                                                    name="image" (change)="selectImage($event)"
+                                                    (change)="SelectFile($event)" multiple>
+                                            </div>
+                                            <div class="co-md-2" style="padding-left: 268px;margin-top: -9px;">
+                                                <small><img [src]="url" width="100px" height="100px"
+                                                        style="width: 65px;height: 56px;border: orange 3px solid;"
+                                                        alt=""></small>
+
+                                            </div>
+
+
+                                        </div>
+
+
+
+                                        <div *ngIf="submitted && f.Img_URL.errors" class="invalid-feedback">
+                                            <div *ngIf="f.Img_URL.errors.required">Cần chọn tối thiểu 1 ảnh SP!!
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="bmd-label-floating">Ẩn/Hiện:</label>
+                                        <select style="width: -webkit-fill-available;color:black;background:white"
+                                            formControlName="Is_Active" class="form-control"
+                                            [(ngModel)]="Category.Is_Active"
+                                            [ngClass]="{ 'is-invalid': submitted && f.Is_Active.errors }">
+                                            <option value="0">Ẩn Loại Sản Phẩm</option>
+                                            <option value="1">Hiện Loại Sản Phẩm</option>
+
+                                        </select>
+                                        <div *ngIf="submitted && f.Is_Active.errors" class="invalid-feedback">
+                                            <div *ngIf="f.Is_Active.errors.required">Vui lòng nhập tên phim</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Ngày Phát Hành</label>
+                                <input type="date" class="form-control">
+                                <div class="invalid-feedback">
+                                    <div >Vui lòng chọn ngày </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Thể loại</label>
+                                <br />
+                                <select style="width: -webkit-fill-available;color: #8b92a9;background: #3C4858;">
+                                    <option>1</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <div >Vui lòng chọn thể loại</div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Trạng Thái</label>
+                                <br />
+                                <select style="width: -webkit-fill-available;color: #8b92a9;background: #3C4858;">
+                                    <option>2</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    <div >Vui lòng chọn trạng thái</div>
+                                </div>
+                            </div>
+                        </div> -->
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Mô tả:</label>
+                                <textarea formControlName="Description" [(ngModel)]="Category.Description" rows="5"
+                                    type="text" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f.Description.errors }"></textarea>
+                                <div *ngIf="submitted && f.Description.errors" class="invalid-feedback">
+                                    <div *ngIf="f.Description.errors.required">Vui lòng nhập mô tả</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="float: right;">
+                        <button type="reset" style="width: 140px; margin-right:12px ;"
+                            class="btn btn-danger pull-right">Nhập Lại</button>
+
+                        <button type="submit" style="width: 140px;" (click)="Create_Cat()"
+                            class="btn-primary pull-right">Thêm</button>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <form>
+            <div>
+                <input type="file" name="image" multiple (change)="selectImage($event)">
+            </div>
+            <br>
+            <div>
+                <button type="submit" (click)="onSubmit()">Upload</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header card-header-primary">
+                <h4 class="card-title ">Danh Sách</h4>
+                <p class="card-category"> Danh Sách nhân viên</p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <input type="checkbox" />3
+                        <input type="checkbox" />3
+
+                    </div>
+
+                </div>
+                <div class="table-responsive">
+                    <!-- <table datatable  id="datatables" class="table">
+              <thead class=" text-primary">
+  
+                <th>
+                  Họ và Tên
+                </th>
+                <th>
+                  Email
+                </th>
+                <th>
+                  Ngày Sinh
+                </th>
+                <th>
+                  Vị Trí
+                </th>
+              </thead>
+              <tbody >
+                <tr  *ngFor="let user of listuser" >
+                  <td>
+                    {{user.payload.doc.data().tenNguoiDung}}
+                  </td>
+                  <td>
+                    {{user.payload.doc.data().email}}
+                  </td>
+                  <td>
+                    {{user.payload.doc.data().ngaySinh}}
+                  </td>
+                  <td>
+                    <div>{{user.payload.doc.data().viTri}}</div>
+                    
+                  </td>
+                  
+  
+                </tr>
+  
+              </tbody>
+            </table> -->
+                    <table style="text-align: center" id="datatables" class="row-border hover">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Tên Phim
+                                </th>
+                                <th>
+                                    Ngày Phát Hành
+                                </th>
+                                <th>
+                                    Thể Loại
+                                </th>
+                                <th>
+                                    Trạng Thái
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- <tr  *ngFor="let user of listuser" >
+                        <td>
+                          {{user.tenNguoiDung}}
+                        </td>
+                        <td>
+                          {{user.email}}
+                        </td>
+                        <td>
+                          {{user.ngaySinh}}
+                        </td>
+                        <td>
+                          <div>{{user.viTri}}</div>
+                          
+                        </td>
+                        
+        
+                      </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

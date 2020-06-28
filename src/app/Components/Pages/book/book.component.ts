@@ -5,6 +5,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { BookService } from 'src/app/Services/Book.sevice';
 import Book from 'src/app/Model/Book';
 import { HttpClient } from '@angular/common/http';
+import Category from 'src/app/Model/Category';
+import { CateService } from 'src/app/Services/Cat.service';
 
 @Component({
   selector: 'app-book',
@@ -16,17 +18,22 @@ export class BookComponent implements OnInit {
   ListBook;
   Book: Book;
   ngForm: FormGroup;
+  ngForm2: FormGroup;
   checksua: boolean = false
   checktao: boolean = true
   checkhinh: boolean = false;
+  checkcat: boolean = false;
   filterkey: []
-  Category = ["Tình cảm", "Kinh Dị", "Hoạt Hình", "Viễn Tưởng", "Hành Động", "Nhạc Kịch", "Khác..."]
+  Category: Category;
+  Category_List;
+  // Category = ["Tình cảm", "Kinh Dị", "Hoạt Hình", "Viễn Tưởng", "Hành Động", "Nhạc Kịch", "Khác..."]
   Status = ["Dự Kiến", "Đã Phát Hành", "Đang khởi chiếu"]
   images;
   url = "";
 
-  constructor(private fb: FormBuilder, public db: AngularFireDatabase, private BookService: BookService, private cookies: CookieService, private http: HttpClient) {
+  constructor(private fb: FormBuilder, public db: AngularFireDatabase, private BookService: BookService, private CateService: CateService, private cookies: CookieService, private http: HttpClient) {
     this.createForm();
+    this.createForm2();
   }
   get f() { return this.ngForm.controls }
   ngOnInit(): void {
@@ -35,6 +42,47 @@ export class BookComponent implements OnInit {
       this.ListBook = Object.assign(data);
       this.innitdatable(this.ListBook);
     })
+    this.Category = new Category();
+    this.http.get<any>('http://localhost:9000/api/cate').subscribe(data => {
+      this.Category_List = data;
+    })
+  }
+  Add_NewCat() {
+    this.checkcat = true;
+    this.checktao = false;
+  }
+  async Add_Cate() {
+    this.submitted = true;
+    if (this.Category.Name_Cat && this.Category.Description_Cat) {
+      var cate = {
+        Name_Cat: this.Category.Name_Cat,
+        Description_Cat: this.Category.Description_Cat,
+        Publication_Date: this.Category.Publication_Date,
+        Status_Cat: this.Category.Status_Cat
+      }
+      await this.CateService.createcate(cate).subscribe(data => {
+
+        let res = Object.assign(data)
+        if (res.status == 200) {
+          window.alert("Thêm Thành công");
+          this.checkcat = false;
+          this.checktao = true;
+          this.Category = new Category();
+
+        } else {
+          window.alert("Đã có lỗi xảy ra")
+        }
+        location.reload();
+
+
+      })
+    } else {
+      alert("Điền đầy đủ đi rồi đi cu!!!")
+    }
+  }
+  Back_Cat() {
+    this.checkcat = false;
+    this.checktao = true;
   }
   innitdatable(data) {
     var enviromenttypescript = this;
@@ -45,41 +93,69 @@ export class BookComponent implements OnInit {
         columns: [
           {
             "render": function (data, type, row, meta) {
-              return `<img src="http://localhost:9000/upload/` + row.Img_URL + `" width="100" height="100">`
+              if (row.Active == 'Hiện') {
+                return `<img src="http://localhost:9000/upload/` + row.Img_URL + `" width="100" height="100">`
+              } else {
+                return ''
 
-            }
-          },
-          {
-            "render": function (data, type, row, meta) {
-              return row.Book_Name
-
-            }
-          },
-
-
-          {
-            "render": function (data, type, row, meta) {
-              return row.Publication_Date
-
-            }
-          },
-          {
-            "render": function (data, type, row, meta) {
-              return row.Category
-
-            }
-          },
-          {
-            "render": function (data, type, row, meta) {
-              if (row.Status == 'Dự Kiến') {
-                return '  <button style="width:150px" type="submit" class="btn btn-info pull-left">' + row.Status + '</button>'
               }
-              if (row.Status == 'Đã Phát Hành') {
-                return '  <button style="width:150px" type="submit" class="btn btn-primary pull-left">' + row.Status + '</button>'
+
+            }
+          },
+          {
+            "render": function (data, type, row, meta) {
+              if (row.Active == 'Hiện') {
+                return row.Book_Name
+              } else {
+                return ''
+
               }
-              if (row.Status == 'Đang khởi chiếu') {
-                return '  <button style="width:150px;"  type="submit" class="btn btn-success pull-left">' + row.Status + '</button>'
+
+
+            }
+          },
+
+
+          {
+            "render": function (data, type, row, meta) {
+              if (row.Active == 'Hiện') {
+                return row.Publication_Date
+              } else {
+                return ''
+
               }
+
+            }
+          },
+          {
+            "render": function (data, type, row, meta) {
+              if (row.Active == 'Hiện') {
+                return row.Category
+              } else {
+                return ''
+
+              }
+
+            }
+          },
+          {
+            "render": function (data, type, row, meta) {
+              if (row.Active == 'Hiện') {
+                if (row.Status == 'Dự Kiến') {
+                  return '  <button style="width:150px" type="submit" class="btn btn-info pull-left">' + row.Status + '</button>'
+                }
+                if (row.Status == 'Đã Phát Hành') {
+                  return '  <button style="width:150px" type="submit" class="btn btn-primary pull-left">' + row.Status + '</button>'
+                }
+                if (row.Status == 'Đang khởi chiếu') {
+                  return '  <button style="width:150px;"  type="submit" class="btn btn-success pull-left">' + row.Status + '</button>'
+                }
+              } else {
+                return ''
+
+              }
+
+
 
             }
           }
@@ -114,7 +190,17 @@ export class BookComponent implements OnInit {
       Description: ['', Validators.required],
       Publication_Date: ['', Validators.required],
       Category: ['', Validators.required],
-      Status: ['', Validators.required]
+      Status: ['', Validators.required],
+      Img_URL: ['', Validators.required],
+
+    });
+  }
+  createForm2() {
+    this.ngForm2 = this.fb.group({
+      Name_Cat: ['', Validators.required],
+      Publication_Date: ['', Validators.required],
+      Description_Cat: ['', Validators.required],
+      Status_Cat: ['', Validators.required]
     });
   }
   selectImage(event) {
@@ -136,13 +222,13 @@ export class BookComponent implements OnInit {
   }
 
   async Create_Book() {
-
     this.submitted = true;
     const formdata = new FormData();
     formdata.append('file', this.images);
     await this.http.post<any>("http://localhost:9000/api/file", formdata).subscribe(
       res => {
         if (this.ngForm.invalid) {
+          alert("return")
           return;
         } else {
           console.log("Book nè: " + this.Book);
@@ -153,6 +239,7 @@ export class BookComponent implements OnInit {
             Book_Name: this.Book.Book_Name,
             Description: this.Book.Description,
             Status: this.Book.Status,
+            Active: 'Hiện',
             Image_URL: res.file
           }
           this.BookService.create(data).subscribe(data => {
@@ -178,8 +265,52 @@ export class BookComponent implements OnInit {
 
 
   }
+  // async Update_Book() {
+  //   const formdata = new FormData();
+  //   if (typeof this.images == undefined) {
+  //     alert("1");
+  //     formdata.append('file', this.Book.Img_URL);
+  //   } else {
+  //     alert("2");
+  //     formdata.append('file', this.images);
+
+  //   }
+  //   alert("formdata: " + JSON.stringify(formdata))
+
+  //   await this.http.post<any>("http://localhost:9000/api/update-file", formdata).subscribe(
+  //     res => {
+
+  //       console.log("this.Book: " + this.Book)
+  //       console.log("this.res.file: " + res.file)
+  //       console.log("this.Book.Img_URL: " + this.Book.Img_URL)
+  //       if (res.file) {
+  //         let data = {
+  //           Book_ID: this.Book.Book_ID,
+  //           User_Create: this.cookies.get("email"),
+  //           Category: this.Book.Category,
+  //           Publication_Date: this.Book.Publication_Date,
+  //           Book_Name: this.Book.Book_Name,
+  //           Description: this.Book.Description,
+  //           Status: this.Book.Status,
+  //           Image_URL: res.file,
+  //         }
+  //         console.log("Data: " + JSON.stringify(data))
+  //         this.BookService.update(data).subscribe(data => {
+  //           let res = Object.assign(data)
+  //           if (res.status == 200) {
+  //             window.alert("Sửa Thành công")
+  //             this.getbook()
+  //           } else {
+  //             window.alert("Đã có lỗi xảy ra")
+  //           }
+  //         })
+  //       }
+
+  //     })
+
+  // }//Update have image
+
   Update_Book() {
-    console.log(this.Book)
     let data = {
       Book_ID: this.Book.Book_ID,
       User_Create: this.cookies.get("email"),

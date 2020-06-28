@@ -69,7 +69,8 @@ firebase.initializeApp(environment.firebase);
     AngularFireAuthModule,
     NgbModule,
     DataTablesModule,
-    HttpClientModule
+    HttpClientModule,
+
   ],
   providers: [AuthenticationService, CookieService],
   bootstrap: [AppComponent]

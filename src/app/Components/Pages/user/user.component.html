@@ -13,16 +13,19 @@
                         <thead>
                             <tr>
                                 <th>
-                                    Họ và Tên
+                                    Avatar
+                                </th>
+                                <th>
+                                    AccFullName
                                 </th>
                                 <th>
                                     Email
                                 </th>
                                 <th>
-                                    Ngày Sinh
+                                    DateofBirth
                                 </th>
                                 <th>
-                                    Vị Trí
+                                    Postion
                                 </th>
 
                             </tr>
@@ -71,7 +74,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Address</label>
                                 <input formControlName="Address" [(ngModel)]="user.Address" type="text"
@@ -79,6 +82,24 @@
                                 <div *ngIf="Submitted && f.Address.errors" class="invalid-feedback">
                                     <div *ngIf="f.Address.errors.required">Please fill Address!!!</div>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">User Image</label>
+                                    <input formControlName="Img_URL" class="form-control" type="file" name="file"
+                                        multiple (change)="selectImage($event)" style="width: 530px;">
+
+                                    <div *ngIf="submitted && f.Img_URL.errors" class="invalid-feedback">
+                                        <div *ngIf="f.Img_URL.errors.required">Please choose your image profile!!!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="co-md-2" style="padding-left: 550px;margin-top: -63px;">
+                                <small><img *ngIf="checkhinh" [src]="url" width="100px" height="100px"
+                                        style="width: 65px;height: 56px;border: orange 3px solid;" alt=""></small>
+
                             </div>
                         </div>
                     </div>
@@ -210,8 +231,8 @@
                     <button style="margin-right: 20px;" type="submit" class="btn btn-warning pull-right"
                         (click)="Update_User()">Update_User</button>
 
-                    <button style="margin-right: 20px;" type="submit" class="btn btn-danger pull-right"
-                        id="xoa">Delete</button>
+                    <button (click)="Delete_User()" style="margin-right: 20px;" type="submit"
+                        class="btn btn-danger pull-right" id="xoa">Delete</button>
                 </div>
                 <div class="clearfix"></div>
 

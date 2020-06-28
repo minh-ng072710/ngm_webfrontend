@@ -17,20 +17,20 @@
                     <thead>
                         <tr>
                             <th>
-                                Hình
+                                Image
                             </th>
                             <th>
-                                Tên Sách
+                                Book Name
                             </th>
 
                             <th>
-                                Ngày Phát Hành
+                                Publication Date
                             </th>
                             <th>
-                                Thể Loại
+                                Category
                             </th>
                             <th>
-                                Trạng Thái
+                                Status
                             </th>
                         </tr>
                     </thead>
@@ -64,16 +64,15 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-6">
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="bmd-label-floating">Book Image</label>
-                                    <input formControlName="" class="form-control" type="file" name="file" multiple
-                                        (change)="selectImage($event)" style="width: 530px;">
+                                    <input formControlName="Img_URL" class="form-control" type="file" name="file"
+                                        multiple (change)="selectImage($event)" style="width: 530px;">
 
-                                    <div *ngIf="submitted && f.Book_Name.errors" class="invalid-feedback">
-                                        <div *ngIf="f.Book_Name.errors.required">Please fill Book's Name!!</div>
+                                    <div *ngIf="submitted && f.Img_URL.errors" class="invalid-feedback">
+                                        <div *ngIf="f.Img_URL.errors.required">Please fill Book's Name!!</div>
                                     </div>
                                 </div>
                             </div>
@@ -100,15 +99,25 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="bmd-label-floating">Category</label>
+                                <label class="bmd-label-floating">Category</label> <span><button (click)="Add_NewCat()"
+                                        class="btn btn-warning pull-left"
+                                        style="margin-left: 292px;font-size: 12px;margin-top: -60px;margin-bottom: 15px;">Add
+                                        New
+                                        Cat</button></span>
                                 <br />
-                                <select style="width: -webkit-fill-available;color:black;background:white"
+                                <select
+                                    style="margin-top:-24px;width: -webkit-fill-available;color:black;background:white"
                                     class="form-control" formControlName="Category" [(ngModel)]="Book.Category"
                                     [ngClass]="{ 'is-invalid': submitted && f.Category.errors }">
-                                    <option *ngFor="let cats of Category">{{cats}}</option>
+                                    <ng-container *ngFor="let cats of Category_List">
+                                        <option *ngIf="cats.Status_Cat=='Hiện'" [value]="cats.Name_Cat">
+                                            {{cats.Name_Cat}}
+                                        </option>
+                                    </ng-container>
+
                                 </select>
                                 <div *ngIf="submitted && f.Category.errors" class="invalid-feedback">
-                                    <div *ngIf="f.Category.errors.required">Please choose Categpory for book</div>
+                                    <div *ngIf="f.Category.errors.required">Please choose Category for book</div>
                                 </div>
                             </div>
                         </div>
@@ -140,6 +149,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
                     <div class="row" style="float: right;">
@@ -166,26 +176,10 @@
 
                 <div class="row">
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label class="bmd-label-floating">Name of Book</label>
                             <input [(ngModel)]="Book.Book_Name" type="text" class="form-control">
-
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="bmd-label-floating">Book Image</label>
-                                <input formControlName="" class="form-control" type="file" name="file" multiple
-                                    (change)="selectImage($event)" style="width: 530px;">
-
-
-                            </div>
-                        </div>
-                        <div class="co-md-2" style="padding-left: 550px;margin-top: -63px;">
-                            <small><img *ngIf="checkhinh" [src]="url" width="100px" height="100px"
-                                    style="width: 65px;height: 56px;border: orange 3px solid;" alt=""></small>
 
                         </div>
                     </div>
@@ -204,8 +198,10 @@
                             <label class="bmd-label-floating">Category</label>
                             <br />
                             <select style="width: -webkit-fill-available;color:black;background:white"
-                                class="form-control" [(ngModel)]="Book.Category">
-                                <option *ngFor="let tl of Category">{{tl}}</option>
+                                class="form-control" [value]="Book.Category" [(ngModel)]="Book.Category">
+                                <option *ngFor="let cats of Category_List">
+                                    {{cats.Name_Cat}}
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -241,6 +237,74 @@
                     <button style="margin-right: 20px;" (click)="DeleteBook()" type="submit"
                         class="btn btn-danger pull-right" id="xoa">Delete</button>
                 </div>
+                <div class="clearfix"></div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+    <div *ngIf="checkcat" class="col-lg-12">
+        <div class="card">
+            <div class="card-header card-header-primary"
+                style="background: dimgrey;color:white;text-align: center;font-size: 20px;">
+                <h4 *ngIf="checkcat" class="card-title">Book Management</h4>
+                <p *ngIf="checkcat" class="card-category">Add New Category</p>
+            </div>
+            <div class="card-body">
+                <form [formGroup]="ngForm2">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Name of Cate</label>
+                                <input formControlName="Name_Cat" [(ngModel)]="Category.Name_Cat" type="text"
+                                    class="form-control">
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Publication Date</label>
+                                <input formControlName="Publication_Date" style="width: 596px;"
+                                    [(ngModel)]="Category.Publication_Date" type="date" class="form-control">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Description</label>
+                                <textarea rows="5" formControlName="Description_Cat"
+                                    [(ngModel)]="Category.Description_Cat" type="text" class="form-control"></textarea>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="bmd-label-floating">Stattus:</label><br />
+                                <input type="radio" formControlName="Status_Cat" [(ngModel)]="Category.Status_Cat"
+                                    name="Status_Cat" value="Ẩn">Ẩn
+                                <br />
+                                <input type="radio" formControlName="Status_Cat" [(ngModel)]="Category.Status_Cat"
+                                    name="Status_Cat" value="Hiện">Hiện
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="float: right;">
+                        <button style="margin-right: 20px;" type="submit" class="btn btn-success pull-right" id="sua"
+                            (click)="Back_Cat()">Back Previous</button>
+                        <button style="margin-right: 20px;" type="submit" class="btn btn-warning pull-right" id="sua"
+                            (click)="Add_Cate()">Add Cat</button>
+                    </div>
+                </form>
+
                 <div class="clearfix"></div>
             </div>
 

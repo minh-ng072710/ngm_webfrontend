@@ -17,7 +17,12 @@ export const environment = {
   get_all_book: "http://localhost:9000/api/book",
   create_book: 'http://localhost:9000/api/create-book',
   delete_book: "http://localhost:9000/api/delete-book/",
-  update_book: "http://localhost:9000/api/update-book"
+  update_book: "http://localhost:9000/api/update-book",
+
+  get_all_cate: "http://localhost:9000/api/cate",
+  create_cate: "http://localhost:9000/api/create-cate",
+  update_cate: "http://localhost:9000/api/update-cate",
+  delete_cate: "http://localhost:9000/api/delete-cate/",
 };
 
 /*

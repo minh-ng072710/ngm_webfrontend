@@ -7,6 +7,7 @@ export default class Book {
     Book_Name: string;
     Description: string;
     Status: string;
+    Active: string;
     Time_Created: Date;
     Time_Updated: Date;
 }

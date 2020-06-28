@@ -1,9 +1,9 @@
 export default class Category {
     Cat_ID: string;
-    Img_URL: string;
-    Is_Active: number;
-    Name: string;
-    Description: string;
-    Time_Created: Date;
-    Time_Updated: Date;
+    Name_Cat: string;
+    Status_Cat: string;
+    Description_Cat: string;
+    Publication_Date: string;
+    Time_Created: string;
+    Time_Updated: string;
 }

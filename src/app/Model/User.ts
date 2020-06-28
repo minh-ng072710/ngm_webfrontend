@@ -1,14 +1,12 @@
 export default class User {
     User_ID: string;
     AccFullName: string;
+    Img_URL: string;
     Email: string;
     Address: string;
     Gender: string;
     DateOfBirth: string;
     Position: string;
-    Password: string;
-    Phone: string;
-    Active: number;
-    Time_Created: Date;
-    Time_Updated: Date;
+    Time_Created: string;
+    Time_Updated: string;
 }

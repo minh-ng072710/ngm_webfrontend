@@ -47,9 +47,7 @@
             </div>
             <div class="card-body">
                 <form [formGroup]="NgForm">
-
                     <div class="row">
-
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="bmd-label-floating">AccFullName</label>
@@ -59,16 +57,22 @@
                                 <div *ngIf="Submitted && f.AccFullName.errors" class="invalid-feedback">
                                     <div *ngIf="f.AccFullName.errors.required">Please fill your fullname!!!</div>
                                 </div>
-
+                                <!-- <div *ngIf="checktrung_username" style="color: red; margin-left: 6px;" class="danger">
+                                    <div>Username này đã có người khác đăng kí rồi nhé cu!!!!!!!!</div>
+                                </div> -->
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Email</label>
-                                <input formControlName="Email" [(ngModel)]="user.Email" type="email"
-                                    class="form-control" [ngClass]="{ 'is-invalid': Submitted && f.Email.errors }">
+                                <input (keyup)="Check($event)" formControlName="Email" [(ngModel)]="user.Email"
+                                    type="email" class="form-control"
+                                    [ngClass]="{ 'is-invalid': Submitted && f.Email.errors }">
                                 <div *ngIf="Submitted && f.Email.errors" class="invalid-feedback">
                                     <div *ngIf="f.Email.errors.required">Pleased fill your Email!!!</div>
+                                </div>
+                                <div *ngIf="checktrung_mail" style="color: red; margin-left: 6px;" class="danger">
+                                    <div>Email này đã có người khác đăng kí rồi nhé cu!!!!!!!!</div>
                                 </div>
                             </div>
                         </div>
@@ -148,12 +152,11 @@
                         <button type="reset" style="width: 140px; margin-right:12px ;"
                             class="btn btn-danger pull-right">Reset</button>
 
-                        <button type="submit" style="width: 140px;" (click)="Create_User()"
+                        <button *ngIf="check_btn" type="submit" style="width: 140px;" (click)="Create_User()"
                             class="btn-primary pull-right">Add_New_User</button>
                     </div>
                     <div class="clearfix"></div>
                 </form>
-
             </div>
 
         </div>
@@ -166,14 +169,11 @@
                 <p class="card-category" *ngIf="CheckSua">Update User Infor</p>
             </div>
             <div class="card-body">
-
                 <div class="row">
-
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="bmd-label-floating">Họ Và Tên</label>
                             <input [(ngModel)]="user.AccFullName" type="text" class="form-control">
-
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -189,8 +189,6 @@
                         <div class="form-group">
                             <label class="bmd-label-floating">Address</label>
                             <input [(ngModel)]="user.Address" type="text" class="form-control">
-
-
                         </div>
                     </div>
                 </div>
@@ -199,7 +197,6 @@
                         <div class="form-group">
                             <label class="bmd-label-floating">Date of birth</label>
                             <input [(ngModel)]="user.DateOfBirth" type="date" value="20/10/1998" class="form-control">
-
                         </div>
                     </div>
                     <div class="col-md-4">

@@ -23,6 +23,8 @@ export const environment = {
   create_cate: "http://localhost:9000/api/create-cate",
   update_cate: "http://localhost:9000/api/update-cate",
   delete_cate: "http://localhost:9000/api/delete-cate/",
+
+  get_all_user: "http://localhost:9000/api/user"
 };
 
 /*

@@ -20,8 +20,12 @@
                                 Publication Date
                             </th>
                             <th>
-                                Description
+                                Time Create
                             </th>
+                            <th>
+                                Time Update
+                            </th>
+
 
                         </tr>
                     </thead>
@@ -113,10 +117,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Name of Cate</label>
-                                <input formControlName="Name_Cat" [(ngModel)]="Category.Name_Cat" type="text"
-                                    class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Name_Cat.errors }">
+                                <input (keyup)="check_cate($event)" formControlName="Name_Cat"
+                                    [(ngModel)]="Category.Name_Cat" type="text" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f.Name_Cat.errors }">
                                 <div *ngIf="submitted && f.Name_Cat.errors" class="invalid-feedback">
                                     <div *ngIf="f.Name_Cat.errors.required">Please fill Cate's Name!!</div>
+                                </div>
+                                <div *ngIf="checktrung" style="color: red; margin-left: 6px;" class="danger">
+                                    <div>Loại sách không được trùng nha cu!!!!!!!!</div>
                                 </div>
                             </div>
 
@@ -164,8 +172,10 @@
                     </div>
 
                     <div class="row" style="float: right;">
-                        <button style="margin-right: 20px;" type="submit" class="btn btn-warning pull-right" id="sua"
-                            (click)="Add_Cate()">Add Cat</button>
+                        <button (click)="reset_cate()" type="reset" style="width: 140px; margin-right:12px ;"
+                            class="btn btn-danger pull-right">Reset</button>
+                        <button *ngIf="check_btn" style="margin-right: 20px;" type="submit"
+                            class="btn btn-warning pull-right" id="sua" (click)="Add_Cate()">Add Cat</button>
                     </div>
                 </form>
 

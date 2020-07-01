@@ -20,8 +20,8 @@ export class CategoryComponent implements OnInit {
   ngForm: FormGroup;
   checksua: boolean = false
   checkcat: boolean = true
-
-
+  checktrung: boolean = false
+  check_btn: boolean = true
   constructor(private fb: FormBuilder, public db: AngularFireDatabase, private CateService: CateService, private BookService: BookService, private cookies: CookieService, private http: HttpClient) {
     this.createForm()
   }
@@ -80,6 +80,24 @@ export class CategoryComponent implements OnInit {
       }
     })
 
+  }
+  reset_cate() {
+    this.check_btn = false;
+    this.checktrung = false;
+  }
+  check_cate(e) {
+    console.log(e.target.value.toLowerCase())
+    for (var i = 0; i < this.Category_List.length; i++) {
+      if (e.target.value.toLowerCase().trim() == this.Category_List[i].Name_Cat.toLowerCase().trim()) {
+        this.checktrung = true
+        this.check_btn = false
+        break;
+      } else {
+        this.checktrung = false
+        this.check_btn = true
+
+      }
+    }
   }
   async Delete_Cate() {
     let data = {
@@ -162,9 +180,19 @@ export class CategoryComponent implements OnInit {
                 return `<p style="color: darkgray; font-weight: 500;text-decoration: line-through">` + row.Description_Cat + `</p>`
 
               }
-              return row.Description_Cat
+              return row.Time_Created
 
 
+
+            }
+          },
+          {
+            "render": function (data, type, row, meta) {
+              if (row.Status_Cat == 'Ẩn') {
+                return `<p style="color: darkgray; font-weight: 500;text-decoration: line-through">` + row.Description_Cat + `</p>`
+
+              }
+              return row.Time_Updated
 
             }
           },

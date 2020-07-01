@@ -57,10 +57,14 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Name of Book</label>
-                                <input formControlName="Book_Name" [(ngModel)]="Book.Book_Name" type="text"
-                                    class="form-control" [ngClass]="{ 'is-invalid': submitted && f.Book_Name.errors }">
+                                <input (keyup)="check_book($event)" formControlName="Book_Name"
+                                    [(ngModel)]="Book.Book_Name" type="text" class="form-control"
+                                    [ngClass]="{ 'is-invalid': submitted && f.Book_Name.errors }">
                                 <div *ngIf="submitted && f.Book_Name.errors" class="invalid-feedback">
                                     <div *ngIf="f.Book_Name.errors.required">Please fill Book's Name!!</div>
+                                </div>
+                                <div *ngIf="checktrung" style="color: red; margin-left: 6px;" class="danger">
+                                    <div>Tên sách không được trùng nha cu!!!!!!!!</div>
                                 </div>
                             </div>
                         </div>
@@ -153,10 +157,10 @@
                     </div>
 
                     <div class="row" style="float: right;">
-                        <button type="reset" style="width: 140px; margin-right:12px ;"
+                        <button (click)="reset_book()" type="reset" style="width: 140px; margin-right:12px ;"
                             class="btn btn-danger pull-right">Reset</button>
 
-                        <button type="submit" style="width: 140px;" (click)="Create_Book()"
+                        <button *ngIf="check_btn" type="submit" style="width: 140px;" (click)="Create_Book()"
                             class="btn-primary pull-right">Add_New_Book</button>
                     </div>
                     <div class="clearfix"></div>
@@ -182,7 +186,9 @@
                             <input [(ngModel)]="Book.Book_Name" type="text" class="form-control">
 
                         </div>
+
                     </div>
+
                 </div>
                 <div class="row">
                     <div class="col-md-4">
@@ -233,7 +239,6 @@
                         (click)="back()">Back Previous</button>
                     <button style="margin-right: 20px;" type="submit" class="btn btn-warning pull-right" id="sua"
                         (click)="Update_Book()">Update</button>
-
                     <button style="margin-right: 20px;" (click)="DeleteBook()" type="submit"
                         class="btn btn-danger pull-right" id="xoa">Delete</button>
                 </div>
@@ -259,10 +264,12 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="bmd-label-floating">Name of Cate</label>
-                                <input formControlName="Name_Cat" [(ngModel)]="Category.Name_Cat" type="text"
-                                    class="form-control">
+                                <input (keyup)="check_cate($event)" formControlName="Name_Cat"
+                                    [(ngModel)]="Category.Name_Cat" type="text" class="form-control">
 
-
+                                <div *ngIf="checktrung" style="color: red; margin-left: 6px;" class="danger">
+                                    <div>Tên sách không được trùng nha cu!!!!!!!!</div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -298,10 +305,12 @@
                     </div>
 
                     <div class="row" style="float: right;">
+                        <button (click)="reset_cate()" type="reset" style="width: 140px; margin-right:12px ;"
+                            class="btn btn-danger pull-right">Reset</button>
                         <button style="margin-right: 20px;" type="submit" class="btn btn-success pull-right" id="sua"
                             (click)="Back_Cat()">Back Previous</button>
-                        <button style="margin-right: 20px;" type="submit" class="btn btn-warning pull-right" id="sua"
-                            (click)="Add_Cate()">Add Cat</button>
+                        <button *ngIf="check_btn" style="margin-right: 20px;" type="submit"
+                            class="btn btn-warning pull-right" id="sua" (click)="Add_Cate()">Add Cat</button>
                     </div>
                 </form>
 

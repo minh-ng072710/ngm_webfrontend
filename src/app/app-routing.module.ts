@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common'
 
-import { DetailComponent } from './Components/Pages/detail/detail.component';
 import { CategoryComponent } from './Components/Pages/category/category.component';
 import { MainloginComponent } from './Components/mainlogin/mainlogin.component';
 import { IndexComponent } from './Components/index/index.component';
@@ -49,7 +48,6 @@ const routesConfig: Routes = [
 
 @NgModule({
   declarations: [
-    DetailComponent,
   ],
   imports: [
     RouterModule.forRoot(routesConfig),

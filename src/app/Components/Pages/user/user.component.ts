@@ -21,6 +21,10 @@ export class UserComponent implements OnInit {
   checkhinh: boolean = false;
   Submitted: boolean = false;
   CheckTao: boolean = true;
+  checktrung_username: boolean = false;
+  check_btn: boolean = true;
+  checktrung_mail: boolean = false
+
   NgForm: FormGroup;
   ViTri = ["Nhân viên tư Vấn", "Kế toán", "Quản lý", "Nhân viên bán thời gian"]
   images;
@@ -31,20 +35,6 @@ export class UserComponent implements OnInit {
     this.CreateForm();
     this.userCollection = this.afs.collection<User>("User");
   }
-  formatTime() {
-    let year, month, date, hours, minutes, seconds;
-    var dt = new Date();
-    var dt_after;
-    year = dt.getFullYear().toString().padStart(4, '0')
-    month = (dt.getMonth() + 1).toString().padStart(2, '0')
-    date = dt.getDate().toString().padStart(2, '0')
-    hours = dt.getHours().toString().padStart(2, '0')
-    minutes = dt.getMinutes().toString().padStart(2, '0')
-    seconds = dt.getSeconds().toString().padStart(2, '0')
-    dt_after = (year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds)
-    return dt_after;
-  }
-
   ngOnInit() {
     this.ListUser = new Array<User>();
     this.userCollection.snapshotChanges().subscribe(data => {
@@ -57,6 +47,37 @@ export class UserComponent implements OnInit {
       this.innitdatable(this.ListUser)
     })
     this.user = new User();
+  }
+  Reset_User() {
+    this.checktrung_mail = false;
+    this.checktrung_username = false;
+    this.check_btn = true
+  }
+  Check(e) {
+    for (var i = 0; i < this.ListUser.length; i++) {
+      if (e.target.value.toLowerCase().trim() == this.ListUser[i].Email.toLowerCase().trim()) {
+        this.checktrung_mail = true
+        this.check_btn = false
+        break;
+      }
+      this.checktrung_mail = false
+      this.check_btn = true
+
+    }
+  }
+
+  formatTime() {
+    let year, month, date, hours, minutes, seconds;
+    var dt = new Date();
+    var dt_after;
+    year = dt.getFullYear().toString().padStart(4, '0')
+    month = (dt.getMonth() + 1).toString().padStart(2, '0')
+    date = dt.getDate().toString().padStart(2, '0')
+    hours = dt.getHours().toString().padStart(2, '0')
+    minutes = dt.getMinutes().toString().padStart(2, '0')
+    seconds = dt.getSeconds().toString().padStart(2, '0')
+    dt_after = (year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds)
+    return dt_after;
   }
   CreateForm() {
     this.NgForm = this.fb.group({
@@ -116,7 +137,6 @@ export class UserComponent implements OnInit {
           alert("return")
           return;
         } else {
-          alert("2")
           let email = this.user.Email
           let pass = "123456"
           var file = res.file
@@ -136,29 +156,26 @@ export class UserComponent implements OnInit {
             })
             this.ListUser = []
             this.GetUser()
-
           });
           window.alert("Thêm thành công")
           this.Submitted = false
           this.checkhinh = false;
-          this.user = new User()
 
-
-
-
+          // this.user = new User()
+          // location.reload();
         }
       }
     )
   }
-  Delete_User() {
+  async Delete_User() {
     let email = this.user.Email
     let pass = "123456"
-    this.AngularAuth.signInWithEmailAndPassword(email, pass)
+    await this.AngularAuth.signInWithEmailAndPassword(email, pass)
       .then(function (info) {
         var user = firebase.auth().currentUser;
         user.delete();
       })
-    this.userCollection.doc(this.user.User_ID).delete().then()
+    await this.userCollection.doc(this.user.User_ID).delete()
     this.GetUser();
     location.reload();
   }
@@ -177,7 +194,6 @@ export class UserComponent implements OnInit {
     })
     await this.GetUser();
     location.reload();
-
   }
 
   innitdatable(data) {
@@ -232,8 +248,9 @@ export class UserComponent implements OnInit {
     $('#datatables tbody').on('click', 'tr', function () {
       var res = Object.assign(table.row(this).data());
       enviromenttypescript.user = res
-      enviromenttypescript.CheckSua = true;
       enviromenttypescript.CheckTao = false;
+
+      enviromenttypescript.CheckSua = true;
 
     });
   }
